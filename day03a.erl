@@ -16,30 +16,38 @@ main(_) ->
       )
     end, #{}, Data
   ),
-  R= maps:fold(
-    fun(_, V, A) ->
+  {R, R1}= maps:fold(
+    fun(_, {V, L}, {A, S}) ->
       case V of
-        V when V > 1 -> A+1;
-        V -> A
+        V when V > 1 -> {A+1, remove_overcommitted_sets(L, S)};
+        V -> {A, S}
       end
-    end, 0, MarkedFields
+    end, {0, sets:from_list(lists:seq(1,1233))}, MarkedFields
   ),
-  io:format("Day 3A => ~p~n", [R]).
+  io:format("Day 3A => ~p~n", [R]),
+  io:format("Day 3B => ~p~n", sets:to_list(R1)).
 
-field_ids({_,X,Y,SX,SY}) ->
+remove_overcommitted_sets(L,S) ->
+  sets:fold(
+    fun(X,A) ->
+        sets:del_element(X, A)
+    end, S, L
+  ).
+
+field_ids({ID,X,Y,SX,SY}) ->
   ROWS=lists:seq(Y*(?ROWL), (Y+SY-1)*(?ROWL), (?ROWL)),
   R= lists:foldl(
     fun(B,A) ->
         [lists:seq(B+X, B+X+SX-1, 1)|A]
     end, [], ROWS
   ),
-  lists:flatten(R).
+  {ID, lists:flatten(R)}.
 
-mark_fabric(List, Fabric) ->
+mark_fabric({ID, List}, Fabric) ->
   lists:foldl(
     fun(X, A) ->
-        V= maps:get(X, A, 0),
-        maps:put(X, V+1, A)
+        {V,S}= maps:get(X, A, {0, sets:new()}),
+        maps:put(X, {V+1, sets:add_element(ID, S)}, A)
     end, Fabric, List
   ).
 
