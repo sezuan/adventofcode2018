@@ -5,7 +5,7 @@
 -export([main/1]).
 
 -define(DATA, "data.term").
-
+-define(ROWL, 1000).
 main(_) ->
   Data= load_data(day3),
   MarkedFields= lists:foldl(
@@ -26,13 +26,11 @@ main(_) ->
   ),
   io:format("Day 3A => ~p~n", [R]).
 
-% {1203,347,641,29,10}
-
 field_ids({_,X,Y,SX,SY}) ->
-  ROWS=lists:seq(Y*1000, (Y+SY)*1000, 1000),
+  ROWS=lists:seq(Y*(?ROWL), (Y+SY-1)*(?ROWL), (?ROWL)),
   R= lists:foldl(
     fun(B,A) ->
-        [lists:seq(B+X, B+X+SX, 1)|A]
+        [lists:seq(B+X, B+X+SX-1, 1)|A]
     end, [], ROWS
   ),
   lists:flatten(R).
