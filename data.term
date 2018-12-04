@@ -104,6 +104,11 @@
        "zisrtxkgwcfpbsnopeydukjmqv", "zihrtxcgwdfpbynoleydukjmqv", "iihrtxajwcvpbsnoleydukjmqv", "zihuwxapwcfpbsnoleydukjmqv",
        "zihrtxngwcfqbsnoleyiukjmqv", "ziqrtxagjcfpbsnoleydukjmqi", "zifrtxarwctpbsnoleydukjmqv", "zihxgxagwcfpbpnoleydukjmqv",
        "giprtxagwcdpbsnoleydukjmqv", "zihrtxagwmfpbsnodeydukjbqv"]}.
+{day3test, [
+            {1,1,3,4,4},
+            {2,3,1,4,4},
+            {3,5,5,2,2}
+           ]}.
 {day3,[
        {1,565,109,14,24}, {2,413,723,16,28}, {3,136,229,27,11}, {4,640,187,10,17}, {5,666,879,15,23}, {6,20,696,19,12},
        {7,543,767,19,26}, {8,92,312,17,19}, {9,833,99,21,17}, {10,795,572,26,21}, {11,801,965,12,21}, {12,385,951,10,7},
