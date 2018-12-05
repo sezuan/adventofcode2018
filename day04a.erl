@@ -15,13 +15,32 @@ main(_) ->
       true -> {K, V};
       false -> {Guard, GuardValue}
     end end, {0,0}, Minutes),
+
   GuardMinutes= maps:get(SleepyGuard, MarkedMinutes),
   {MaxGuardMinutes, _}= maps:fold(fun(K,V,{Guard, GuardValue}) ->
     case V > GuardValue of
       true -> {K, V};
       false -> {Guard, GuardValue}
     end end, {0,0}, GuardMinutes),
-  io:format("Day 4a => ~p~n", [SleepyGuard * MaxGuardMinutes]).
+
+  {R1, _}= maps:fold(
+    fun(Guard, MinutesSleeps, {BestGuard, BestTimes}) ->
+      {HighestMinute, HighestTimes}= maps:fold(
+        fun(Minute, Times, {TopMinute, TopTimes}) ->
+          case Times > TopTimes of
+            true -> {Minute, Times};
+            false -> {TopMinute, TopTimes}
+          end
+        end, {0,0}, MinutesSleeps),
+      case HighestTimes > BestTimes of
+        true -> {{Guard, HighestMinute}, HighestTimes};
+        false -> {BestGuard, BestTimes}
+      end
+    end, {0,0}, MarkedMinutes),
+  
+
+  io:format("Day 4A => ~p~n", [SleepyGuard * MaxGuardMinutes]),
+  io:format("Day 4B => ~p~n", [element(1,R1)*element(2,R1)]).
 
 sort(L) ->
   lists:sort(
